@@ -1,0 +1,11 @@
+[package]
+name = "hello-brew"              # Project name — also the name of the compiled binary
+version = "0.1.0"                # Version number, following Semantic Versioning (SemVer)
+edition = "2024"                 # Rust edition — determines which language features are enabled
+description = "A simple hello world CLI installed via Homebrew"
+license = "MIT"                  # Open-source license
+authors = ["Your Name <your@email.com>"]  # Replace with your real info
+repository = "https://github.com/YOUR_USERNAME/hello-brew"  # Replace YOUR_USERNAME
+
+[dependencies]
+# No external dependencies needed for now.
