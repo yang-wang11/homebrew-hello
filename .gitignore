@@ -1,6 +1,7 @@
 # Rust build artifacts
 /target/
 .omc
+hello-brew-*.tar.gz
 
 # macOS system files
 .DS_Store

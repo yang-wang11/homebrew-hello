@@ -9,20 +9,46 @@
 
 ## Table of Contents
 
-1. [Install the Rust Toolchain](#1-install-the-rust-toolchain)
-2. [Create a New Rust Project](#2-create-a-new-rust-project)
-3. [Write the Code](#3-write-the-code)
-4. [Build and Test Locally](#4-build-and-test-locally)
-5. [Initialize a Git Repository](#5-initialize-a-git-repository)
-6. [Push to GitHub](#6-push-to-github)
-7. [Create a GitHub Release](#7-create-a-github-release)
-8. [Get the SHA256 Checksum](#8-get-the-sha256-checksum)
-9. [Create a Homebrew Tap Repository](#9-create-a-homebrew-tap-repository)
-10. [Write the Homebrew Formula](#10-write-the-homebrew-formula)
-11. [Test the Installation](#11-test-the-installation)
-12. [Publish a New Version (Update Workflow)](#12-publish-a-new-version-update-workflow)
-13. [Advanced: Precompiled Binaries (Skip Build on User Side)](#13-advanced-precompiled-binaries-skip-build-on-user-side)
-14. [Advanced: Automate Releases with GitHub Actions](#14-advanced-automate-releases-with-github-actions)
+- [Build a Rust CLI Tool and Publish It via Homebrew — Step by Step Guide](#build-a-rust-cli-tool-and-publish-it-via-homebrew--step-by-step-guide)
+  - [Table of Contents](#table-of-contents)
+  - [1. Install the Rust Toolchain](#1-install-the-rust-toolchain)
+  - [2. Create a New Rust Project](#2-create-a-new-rust-project)
+  - [3. Write the Code](#3-write-the-code)
+    - [3.1 Edit `Cargo.toml`](#31-edit-cargotoml)
+    - [3.2 Edit `src/main.rs`](#32-edit-srcmainrs)
+  - [4. Build and Test Locally](#4-build-and-test-locally)
+  - [5. Initialize a Git Repository](#5-initialize-a-git-repository)
+  - [6. Push to GitHub](#6-push-to-github)
+    - [6.1 Create a Repository on GitHub](#61-create-a-repository-on-github)
+    - [6.2 Push Your Local Code](#62-push-your-local-code)
+  - [7. Create a GitHub Release](#7-create-a-github-release)
+    - [Option A: Using the Command Line (Recommended)](#option-a-using-the-command-line-recommended)
+    - [Option B: Using the GitHub Web UI](#option-b-using-the-github-web-ui)
+    - [Verify the Release](#verify-the-release)
+  - [8. Get the SHA256 Checksum](#8-get-the-sha256-checksum)
+  - [9. Create a Homebrew Tap Repository](#9-create-a-homebrew-tap-repository)
+    - [9.1 Create the Tap Repository on GitHub](#91-create-the-tap-repository-on-github)
+    - [9.2 Clone It Locally](#92-clone-it-locally)
+  - [10. Write the Homebrew Formula](#10-write-the-homebrew-formula)
+    - [Commit and Push](#commit-and-push)
+  - [11. Test the Installation](#11-test-the-installation)
+    - [Troubleshooting](#troubleshooting)
+  - [12. Publish a New Version (Update Workflow)](#12-publish-a-new-version-update-workflow)
+    - [12.1 Update Code and Version Number](#121-update-code-and-version-number)
+    - [12.2 Create a New Release](#122-create-a-new-release)
+    - [12.3 Get the New SHA256](#123-get-the-new-sha256)
+    - [12.4 Update the Formula](#124-update-the-formula)
+    - [12.5 How Users Upgrade](#125-how-users-upgrade)
+  - [13. Advanced: Precompiled Binaries (Skip Build on User Side)](#13-advanced-precompiled-binaries-skip-build-on-user-side)
+    - [13.1 Build for Multiple Architectures](#131-build-for-multiple-architectures)
+    - [13.2 Package and Upload](#132-package-and-upload)
+    - [13.3 Update the Formula to Use Precompiled Binaries](#133-update-the-formula-to-use-precompiled-binaries)
+  - [14. Advanced: Automate Releases with GitHub Actions](#14-advanced-automate-releases-with-github-actions)
+    - [Usage](#usage)
+  - [Quick Reference Card](#quick-reference-card)
+    - [How users install your tool](#how-users-install-your-tool)
+    - [Your release workflow](#your-release-workflow)
+    - [Useful commands](#useful-commands)
 
 ---
 
@@ -537,21 +563,15 @@ cargo build --release --target x86_64-apple-darwin
 
 ```bash
 # Example for Apple Silicon:
-cd target/aarch64-apple-darwin/release
-tar -czf hello-brew-0.1.0-aarch64-apple-darwin.tar.gz hello-brew
-
-# Get the SHA256.
-shasum -a 256 hello-brew-0.1.0-aarch64-apple-darwin.tar.gz
+tar -czf hello-brew-0.2.0-aarch64-apple-darwin.tar.gz target/aarch64-apple-darwin/release/hello-brew
+shasum -a 256 hello-brew-0.2.0-aarch64-apple-darwin.tar.gz
 
 # Example for Intel Mac:
-cd ../../x86_64-apple-darwin/release
-tar -czf hello-brew-0.1.0-x86_64-apple-darwin.tar.gz hello-brew
-shasum -a 256 hello-brew-0.1.0-x86_64-apple-darwin.tar.gz
+tar -czf hello-brew-0.2.0-x86_64-apple-darwin.tar.gz target/x86_64-apple-darwin/release/hello-brew
+shasum -a 256 hello-brew-0.2.0-x86_64-apple-darwin.tar.gz
 
 # Upload both to the existing GitHub Release.
-gh release upload v0.1.0 \
-  target/aarch64-apple-darwin/release/hello-brew-0.1.0-aarch64-apple-darwin.tar.gz \
-  target/x86_64-apple-darwin/release/hello-brew-0.1.0-x86_64-apple-darwin.tar.gz
+gh release upload v0.2.0 hello-brew-0.2.0-aarch64-apple-darwin.tar.gz hello-brew-0.2.0-x86_64-apple-darwin.tar.gz
 ```
 
 ### 13.3 Update the Formula to Use Precompiled Binaries
