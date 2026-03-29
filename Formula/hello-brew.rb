@@ -3,17 +3,19 @@
 class HelloBrew < Formula
   desc "A simple hello world CLI installed via Homebrew"
   homepage "https://github.com/yang-wang11/homebrew-hello"
-  version "0.2.0"
+  version "0.3.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/yang-wang11/homebrew-hello/releases/download/v0.2.0/hello-brew-0.2.0-aarch64-apple-darwin.tar.gz"
-      sha256 "af71c07af03545e3ebc90ada48945295c1a23559c7087208feff11dfc9084162"
+      url "https://github.com/yang-wang11/homebrew-hello/releases/download/v0.3.0/hello-brew-aarch64-apple-darwin.tar.gz
+"
+      sha256 "207c8cbb9523b5a1b5874418e8775f2e198fd265af8a937da12799e35fcccb29"
     end
     on_intel do
-      url "https://github.com/yang-wang11/homebrew-hello/releases/download/v0.2.0/hello-brew-0.2.0-x86_64-apple-darwin.tar.gz"
-      sha256 "49d6c076d74a9835d294af1623317b6c4d524f2e77493efaa22b5c3a2ed5d0cc"
+      url "https://github.com/yang-wang11/homebrew-hello/releases/download/v0.3.0/hello-brew-x86_64-apple-darwin.tar.gz
+"
+      sha256 "08d1c54af9fcfa6610f95f3271d716570f1279491b65bcdfcbd81c3e41bb9352"
     end
   end
 

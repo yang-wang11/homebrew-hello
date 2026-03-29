@@ -14,7 +14,7 @@ fn main() {
 
     // If the user passed --os, print operating system information.
     if args.len() > 1 && args[1] == "--os" {
-        println!("OS: {}", env::consts::OS);
+        println!("Current OS: {}", env::consts::OS);
         println!("Architecture: {}", env::consts::ARCH);
         println!("OS Family: {}", env::consts::FAMILY);
         return;
