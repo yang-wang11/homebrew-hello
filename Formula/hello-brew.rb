@@ -18,14 +18,10 @@ class HelloBrew < Formula
   end
 
   def install
-    if Hardware::CPU.arm?
-      bin.install "aarch64-apple-darwin/release/hello-brew"
-    else
-      bin.install "x86_64-apple-darwin/release/hello-brew"
-    end
+    bin.install "hello-brew"
   end
 
   test do
-    assert_match "0.2.0", shell_output("#{bin}/hello-brew --version")
+    assert_match "0.3.0", shell_output("#{bin}/hello-brew --version")
   end
 end
