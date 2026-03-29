@@ -19,9 +19,9 @@ class HelloBrew < Formula
 
   def install
     if Hardware::CPU.arm?
-      bin.install "target/aarch64-apple-darwin/release/hello-brew"
+      bin.install "aarch64-apple-darwin/release/hello-brew"
     else
-      bin.install "target/x86_64-apple-darwin/release/hello-brew"
+      bin.install "x86_64-apple-darwin/release/hello-brew"
     end
   end
 
