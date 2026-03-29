@@ -299,14 +299,14 @@ a1b2c3d4e5f6... (a 64-character hex string)  -
 
 > **What is a Tap?**
 > A Tap is Homebrew's mechanism for third-party repositories. Users add your tap with
-> `brew tap username/tap`, and then they can `brew install` your tools.
+> `brew tap username/hello`, and then they can `brew install` your tools.
 
 ### 9.1 Create the Tap Repository on GitHub
 
 1. Go to https://github.com/new
-2. Repository name: `homebrew-tap`
+2. Repository name: `homebrew-hello`
    - **Must start with `homebrew-`** — this is a Homebrew naming convention
-   - When users run `brew tap YOUR_USERNAME/tap`, Homebrew automatically looks for a repo named `homebrew-tap`
+   - When users run `brew tap YOUR_USERNAME/hello`, Homebrew automatically looks for a repo named `homebrew-hello`
 3. Set to **Public**
 4. Check "Add a README file" (it's fine to check it this time)
 5. Click **Create repository**
@@ -317,8 +317,8 @@ a1b2c3d4e5f6... (a 64-character hex string)  -
 cd ~/Projects
 
 # Replace YOUR_USERNAME with your GitHub username.
-git clone https://github.com/YOUR_USERNAME/homebrew-tap.git
-cd homebrew-tap
+git clone https://github.com/YOUR_USERNAME/homebrew-hello.git
+cd homebrew-hello
 
 # Create the Formula directory.
 mkdir -p Formula
@@ -388,7 +388,7 @@ git push origin main
 
 ```bash
 # Step 1: Add your tap (replace YOUR_USERNAME).
-brew tap YOUR_USERNAME/tap
+brew tap YOUR_USERNAME/hello
 
 # Step 2: Install.
 brew install hello-brew
@@ -427,15 +427,15 @@ curl -sL https://github.com/YOUR_USERNAME/hello-brew/archive/refs/tags/v0.1.0.ta
 **Tap fails to add:**
 
 ```bash
-# Make sure the repository is named exactly "homebrew-tap" and is set to Public.
-# Verify you can access: https://github.com/YOUR_USERNAME/homebrew-tap
+# Make sure the repository is named exactly "homebrew-hello" and is set to Public.
+# Verify you can access: https://github.com/YOUR_USERNAME/homebrew-hello
 ```
 
 **Want to start over?**
 
 ```bash
 brew uninstall hello-brew
-brew untap YOUR_USERNAME/tap
+brew untap YOUR_USERNAME/hello
 # Then re-run tap and install.
 ```
 
@@ -487,7 +487,7 @@ curl -sL https://github.com/YOUR_USERNAME/hello-brew/archive/refs/tags/v0.2.0.ta
 ### 12.4 Update the Formula
 
 ```bash
-cd ~/Projects/homebrew-tap
+cd ~/Projects/homebrew-hello
 
 # Edit Formula/hello-brew.rb:
 #   1. Change the version in the url from v0.1.0 to v0.2.0
@@ -722,11 +722,11 @@ git push origin v0.2.0
 
 # 4. GitHub Actions kicks off automatically.
 # 5. When done, the Release page will have binaries for all platforms.
-# 6. Update the Formula in homebrew-tap with the new SHA256 values.
+# 6. Update the Formula in homebrew-hello with the new SHA256 values.
 ```
 
 > **Going further:** You can add another job to the workflow that automatically updates
-> the homebrew-tap repository. This requires a Personal Access Token (PAT) with write
+> the homebrew-hello repository. This requires a Personal Access Token (PAT) with write
 > access to the tap repo.
 
 ---
@@ -736,7 +736,7 @@ git push origin v0.2.0
 ### How users install your tool
 
 ```bash
-brew tap YOUR_USERNAME/tap
+brew tap YOUR_USERNAME/hello
 brew install hello-brew
 ```
 
@@ -746,17 +746,17 @@ brew install hello-brew
 # Edit code -> bump version -> commit -> tag -> push -> update Formula
 git tag -a vX.Y.Z -m "Release vX.Y.Z"
 git push origin main && git push origin vX.Y.Z
-# Then update url + sha256 in homebrew-tap
+# Then update url + sha256 in homebrew-hello
 ```
 
 ### Useful commands
 
 ```bash
-brew tap YOUR_USERNAME/tap       # Add the tap
+brew tap YOUR_USERNAME/hello       # Add the tap
 brew install hello-brew          # Install
 brew upgrade hello-brew          # Upgrade to latest version
 brew uninstall hello-brew        # Uninstall
-brew untap YOUR_USERNAME/tap     # Remove the tap
+brew untap YOUR_USERNAME/hello     # Remove the tap
 brew test hello-brew             # Run the Formula's test block
 brew audit --formula hello-brew  # Check Formula for style issues
 ```
