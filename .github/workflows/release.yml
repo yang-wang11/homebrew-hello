@@ -1,0 +1,79 @@
+# .github/workflows/release.yml
+# Triggers when a tag starting with "v" is pushed (e.g., v0.1.0, v1.0.0).
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Write permission is needed to create Releases.
+permissions:
+  contents: write
+
+jobs:
+  # Step 1: Build on multiple platforms.
+  build:
+    name: Build ${{ matrix.target }}
+    strategy:
+      matrix:
+        include:
+          # macOS Apple Silicon
+          - target: aarch64-apple-darwin
+            os: macos-latest
+          # macOS Intel
+          - target: x86_64-apple-darwin
+            os: macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # Check out the repository.
+      - uses: actions/checkout@v4
+
+      # Install the Rust toolchain.
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      # Build the optimized release binary.
+      - name: Build
+        run: cargo build --release --target ${{ matrix.target }}
+
+      # Package the binary into a tar.gz archive.
+      - name: Package
+        shell: bash
+        run: |
+          cd target/${{ matrix.target }}/release
+          tar -czf hello-brew-${{ matrix.target }}.tar.gz hello-brew
+          shasum -a 256 hello-brew-${{ matrix.target }}.tar.gz > hello-brew-${{ matrix.target }}.tar.gz.sha256
+
+      # Upload the build artifacts for the release job.
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-brew-${{ matrix.target }}
+          path: |
+            target/${{ matrix.target }}/release/hello-brew-${{ matrix.target }}.tar.gz
+            target/${{ matrix.target }}/release/hello-brew-${{ matrix.target }}.tar.gz.sha256
+
+  # Step 2: Create a GitHub Release and upload all binaries.
+  release:
+    name: Create Release
+    needs: build  # Wait for all builds to finish.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download all build artifacts.
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      # Create the Release and attach the binaries.
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
