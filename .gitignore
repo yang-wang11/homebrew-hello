@@ -1,5 +1,6 @@
 # Rust build artifacts
 /target/
+.omc
 
 # macOS system files
 .DS_Store
